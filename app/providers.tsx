@@ -7,6 +7,17 @@ import { ThemeProvider } from '@/components/theme-provider';
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
+      retry: false,
+      staleTime: 60 * 1000,
+      refetchOnWindowFocus: false,
+      // Add proper error handling
+      onError: (error) => {
+        console.error('Query error:', error);
+      }
+    },
+  },
+  defaultOptions: {
+    queries: {
       staleTime: 60 * 1000,
       refetchOnWindowFocus: false,
     },

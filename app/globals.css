@@ -80,3 +80,29 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .container {
+    @apply mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl;
+  }
+
+  /* Mobile navigation styles */
+  .mobile-nav-item {
+    @apply flex items-center px-3 py-2 text-sm font-medium transition-colors hover:bg-accent rounded-md;
+  }
+
+  .mobile-nav-active {
+    @apply bg-accent text-accent-foreground;
+  }
+}
+
+/* Responsive text utilities */
+@layer utilities {
+  .text-responsive {
+    @apply text-sm sm:text-base lg:text-lg;
+  }
+  
+  .heading-responsive {
+    @apply text-xl sm:text-2xl lg:text-3xl font-bold;
+  }
+}

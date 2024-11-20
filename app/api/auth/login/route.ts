@@ -4,10 +4,10 @@ import { authenticate, createToken } from '@/lib/auth';
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    const { email, password } = body;
+    const { email, password } = await request.json();
 
     const user = await authenticate(email, password);
+    
     if (!user) {
       return NextResponse.json(
         { error: 'Invalid credentials' },
@@ -15,14 +15,15 @@ export async function POST(request: Request) {
       );
     }
 
+    // Create JWT token
     const token = await createToken(user);
-    
-    // Set auth token cookie
+
+    // Set cookie
     cookies().set('auth-token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
-      maxAge: 60 * 60 * 24, // 24 hours
+      path: '/',
     });
 
     return NextResponse.json({ user });

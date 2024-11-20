@@ -24,6 +24,30 @@ export interface Permission {
   resource: string;
 }
 
+export interface WidgetPermission {
+  canView: boolean;
+  canCustomize: boolean;
+  canExport: boolean;
+}
+
+export const WIDGET_PERMISSIONS: Record<Role, WidgetPermission> = {
+  admin: {
+    canView: true,
+    canCustomize: true,
+    canExport: true,
+  },
+  manager: {
+    canView: true,
+    canCustomize: true,
+    canExport: false,
+  },
+  viewer: {
+    canView: true,
+    canCustomize: false,
+    canExport: false,
+  },
+};
+
 export const ROLE_PERMISSIONS: Record<Role, Permission[]> = {
   admin: [
     { action: 'read', resource: '*' },

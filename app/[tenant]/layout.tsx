@@ -27,7 +27,7 @@ export default function TenantLayout({
           <TenantThemeProvider>
             <div className="min-h-screen bg-background">
               <TenantNav tenant={params.tenant} />
-              <main className="container mx-auto p-4 pt-20">{children}</main>
+              <main className="container mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-8">{children}</main>
             </div>
           </TenantThemeProvider>
         </Providers>

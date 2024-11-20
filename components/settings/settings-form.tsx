@@ -62,8 +62,8 @@ export function SettingsForm() {
           </div>
           
           <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="email-notifications">Email Notifications</Label>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
+              <Label htmlFor="email-notifications" className="flex-grow">Email Notifications</Label>
               <Switch
                 id="email-notifications"
                 checked={form.watch('notifications.email')}

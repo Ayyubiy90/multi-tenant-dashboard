@@ -5,8 +5,12 @@ import {
   Users, 
   DollarSign, 
   TrendingUp,
-  Activity 
+  Activity,
+  Settings 
 } from 'lucide-react';
+import { useAuth } from '@/lib/hooks/useAuth';
+import { WIDGET_PERMISSIONS } from '@/lib/types/tenant';
+import { useRealtimeData } from '@/lib/hooks/useRealtimeData';
 import {
   LineChart,
   Line,
@@ -31,12 +35,14 @@ const StatCard = ({
   title, 
   value, 
   icon: Icon, 
-  trend 
+  trend,
+  canCustomize = false,
 }: { 
   title: string; 
   value: string; 
   icon: any;
   trend: number;
+  canCustomize?: boolean;
 }) => (
   <Card className="p-6">
     <div className="flex items-center justify-between">
@@ -53,9 +59,22 @@ const StatCard = ({
 );
 
 export function DashboardWidgets() {
+  const { user } = useAuth();
+  const userRole = user?.role || 'viewer';
+  const permissions = WIDGET_PERMISSIONS[userRole];
+
+  const { data: usersData, isLoading: usersLoading } = useRealtimeData(2420);
+  const { data: revenueData, isLoading: revenueLoading } = useRealtimeData(45231);
+  const { data: conversionData, isLoading: conversionLoading } = useRealtimeData(3.2);
+  const { data: engagementData, isLoading: engagementLoading } = useRealtimeData(87);
+
+  if (usersLoading || revenueLoading || conversionLoading || engagementLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="space-y-8">
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
           title="Daily Active Users"
           value="2,420"
