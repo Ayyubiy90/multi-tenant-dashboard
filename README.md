@@ -105,6 +105,22 @@ To get started with this project, follow these steps:
 - Access the dashboard by navigating to http://localhost:3000/[tenant]/dashboard.
 - Use different tenant IDs to see how the dashboard adapts to different organizations.
 
+## 🔑 User Login Details
+Here are the login credentials for different user roles:
+
+- Admin
+    - Email: admin@acme.com
+    - Password: admin123
+
+- Manager
+    - Email: manager@startup.com
+    - Password: manager123
+
+- Viewer
+    - Email: viewer@tenant.com (You can create a mock viewer user in the code)
+    - Password: viewer123 (You can set a mock password for the viewer)
+
+
 ## 🏛️ Architecture Decisions
 - Utilized Next.js for its server-side rendering capabilities, enhancing performance and SEO.
 - Implemented a modular architecture to facilitate easy maintenance and scalability.
