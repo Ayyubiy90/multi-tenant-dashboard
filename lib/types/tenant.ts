@@ -28,6 +28,8 @@ export interface WidgetPermission {
   canView: boolean;
   canCustomize: boolean;
   canExport: boolean;
+  canRefresh: boolean;
+  refreshInterval?: number;
 }
 
 export const WIDGET_PERMISSIONS: Record<Role, WidgetPermission> = {
@@ -35,16 +37,22 @@ export const WIDGET_PERMISSIONS: Record<Role, WidgetPermission> = {
     canView: true,
     canCustomize: true,
     canExport: true,
+    canRefresh: true,
+    refreshInterval: 1000,
   },
   manager: {
     canView: true,
     canCustomize: true,
     canExport: false,
+    canRefresh: true,
+    refreshInterval: 5000,
   },
   viewer: {
     canView: true,
     canCustomize: false,
     canExport: false,
+    canRefresh: false,
+    refreshInterval: 10000,
   },
 };
 

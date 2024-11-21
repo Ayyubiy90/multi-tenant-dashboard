@@ -5,7 +5,11 @@ interface DataPoint {
   value: number;
 }
 
-export function useRealtimeData(initialValue: number, updateInterval: number = 5000) {
+export function useRealtimeData(
+  initialValue: number, 
+  updateInterval: number = 5000,
+  enabled: boolean = true
+) {
   const [data, setData] = useState<DataPoint[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
@@ -22,6 +26,11 @@ export function useRealtimeData(initialValue: number, updateInterval: number = 5
     setIsLoading(false);
 
     // Set up real-time updates
+    if (!enabled) {
+      setIsLoading(false);
+      return;
+    }
+
     const interval = setInterval(() => {
       try {
         setData(prev => {

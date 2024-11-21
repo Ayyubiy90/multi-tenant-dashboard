@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { 
   Users, 
@@ -37,12 +38,16 @@ const StatCard = ({
   icon: Icon, 
   trend,
   canCustomize = false,
+  onRefresh,
+  canRefresh = false,
 }: { 
   title: string; 
   value: string; 
   icon: any;
   trend: number;
   canCustomize?: boolean;
+  onRefresh?: () => void;
+  canRefresh?: boolean;
 }) => (
   <Card className="p-6">
     <div className="flex items-center justify-between">
@@ -53,7 +58,17 @@ const StatCard = ({
           {trend > 0 ? '+' : ''}{trend}% from last week
         </p>
       </div>
-      <Icon className="h-8 w-8 text-muted-foreground" />
+      <div className="flex items-center gap-2">
+        {canRefresh && (
+          <button 
+            onClick={onRefresh}
+            className="p-2 hover:bg-muted rounded-full"
+          >
+            <Settings className="h-4 w-4" />
+          </button>
+        )}
+        <Icon className="h-8 w-8 text-muted-foreground" />
+      </div>
     </div>
   </Card>
 );
@@ -62,11 +77,49 @@ export function DashboardWidgets() {
   const { user } = useAuth();
   const userRole = user?.role || 'viewer';
   const permissions = WIDGET_PERMISSIONS[userRole];
+  const [chartData, setChartData] = useState(mockData);
 
-  const { data: usersData, isLoading: usersLoading } = useRealtimeData(2420);
-  const { data: revenueData, isLoading: revenueLoading } = useRealtimeData(45231);
-  const { data: conversionData, isLoading: conversionLoading } = useRealtimeData(3.2);
-  const { data: engagementData, isLoading: engagementLoading } = useRealtimeData(87);
+  const { data: usersData, isLoading: usersLoading, error: usersError } = useRealtimeData(
+    2420, 
+    permissions.refreshInterval,
+    permissions.canRefresh
+  );
+
+  useEffect(() => {
+    if (usersData) {
+      const newChartData = usersData.map(point => ({
+        name: point.name,
+        value: point.value
+      }));
+      setChartData(newChartData);
+    }
+  }, [usersData]);
+
+  // Update chart data when real-time data changes
+  useEffect(() => {
+    if (usersData) {
+      const chartData = usersData.map(point => ({
+        name: new Date(point.timestamp).toLocaleTimeString(),
+        value: point.value
+      }));
+      setChartData(chartData);
+    }
+  }, [usersData]);
+  const { data: revenueData, isLoading: revenueLoading } = useRealtimeData(
+    45231,
+    permissions.refreshInterval,
+    permissions.canRefresh
+  );
+  const { data: conversionData, isLoading: conversionLoading } = useRealtimeData(
+    3.2,
+    permissions.refreshInterval,
+    permissions.canRefresh
+  );
+  const { data: engagementData, isLoading: engagementLoading } = useRealtimeData(
+    87,
+    permissions.refreshInterval,
+    permissions.canRefresh
+  );
 
   if (usersLoading || revenueLoading || conversionLoading || engagementLoading) {
     return <div>Loading...</div>;
@@ -105,7 +158,7 @@ export function DashboardWidgets() {
         <h3 className="text-lg font-medium mb-4">Weekly User Activity</h3>
         <div className="h-[300px]">
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={mockData}>
+            <LineChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
               <YAxis />

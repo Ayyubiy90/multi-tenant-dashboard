@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { getSession } from './lib/auth';
+import { getSession, verifyRoutePermission } from './lib/auth';
 
 // Simulated tenant validation - In production, this would check against a database
 const VALID_TENANTS = ['acme', 'startup', 'enterprise'];
@@ -34,11 +34,20 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL(`/${session.tenantId}/dashboard`, request.url));
   }
 
+  // Verify role-based access
+  const userRole = session.role;
+  
+  // Check if user has permission for this route
+  const hasPermission = await verifyRoutePermission(pathname, userRole);
+  if (!hasPermission) {
+    return NextResponse.redirect(new URL(`/${session.tenantId}/dashboard`, request.url));
+  }
+
   // Add session and tenant information to headers
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set('x-tenant-id', tenant);
   requestHeaders.set('x-user-id', session.id);
-  requestHeaders.set('x-user-role', session.role);
+  requestHeaders.set('x-user-role', userRole);
 
   return NextResponse.next({
     request: {

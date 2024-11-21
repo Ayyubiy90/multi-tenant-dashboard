@@ -34,6 +34,22 @@ export async function getSession() {
   }
 }
 
+export async function verifyRoutePermission(pathname: string, role: string): Promise<boolean> {
+  // Map routes to required permissions
+  const routePermissions: Record<string, string[]> = {
+    '/[tenant]/settings': ['admin'],
+    '/[tenant]/users': ['admin', 'manager'],
+    '/[tenant]/dashboard': ['admin', 'manager', 'viewer']
+  };
+
+  // Extract route pattern
+  const routePattern = pathname.replace(/\/[^/]+\/(dashboard|settings|users)/, '/[tenant]/$1');
+  
+  // Check if user role has permission for this route
+  const allowedRoles = routePermissions[routePattern] || [];
+  return allowedRoles.includes(role);
+}
+
 // Mock authentication function - In production, this would verify against a database
 export async function authenticate(email: string, password: string): Promise<User | null> {
   // Simulated delay
