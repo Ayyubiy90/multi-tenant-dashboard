@@ -58,28 +58,39 @@ export async function authenticate(email: string, password: string): Promise<Use
   // Mock user credentials
   const mockUsers: Record<string, { password: string; user: User }> = {
     'admin@acme.com': {
-      password: 'admin123',
-      user: {
-        id: '1',
-        name: 'John Doe',
-        email: 'admin@acme.com',
-        role: 'admin',
-        tenantId: 'acme',
-        avatar: 'https://avatars.githubusercontent.com/u/1?v=4',
-      },
+        password: 'admin123',
+        user: {
+            id: '1',
+            name: 'John Doe',
+            email: 'admin@acme.com',
+            role: 'admin',
+            tenantId: 'acme',
+            avatar: 'https://avatars.githubusercontent.com/u/1?v=4',
+        },
     },
     'manager@startup.com': {
-      password: 'manager123',
-      user: {
-        id: '2',
-        name: 'Jane Smith',
-        email: 'manager@startup.com',
-        role: 'manager',
-        tenantId: 'startup',
-        avatar: 'https://avatars.githubusercontent.com/u/2?v=4',
-      },
+        password: 'manager123',
+        user: {
+            id: '2',
+            name: 'Jane Smith',
+            email: 'manager@startup.com',
+            role: 'manager',
+            tenantId: 'startup',
+            avatar: 'https://avatars.githubusercontent.com/u/2?v=4',
+        },
     },
-  };
+    'viewer@tenant.com': {
+        password: 'viewer123',
+        user: {
+            id: '3',
+            name: 'Viewer User',
+            email: 'viewer@tenant.com',
+            role: 'viewer',
+            tenantId: 'tenant',
+            avatar: 'https://avatars.githubusercontent.com/u/3?v=4',
+        },
+    },
+};
 
   const userRecord = mockUsers[email];
   if (userRecord && userRecord.password === password) {
