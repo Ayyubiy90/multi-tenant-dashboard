@@ -15,6 +15,8 @@ export async function POST(request: Request) {
       );
     }
 
+    // Log the authenticated user object to check its properties
+    console.log('Authenticated user:', user);
     // Create JWT token
     const token = await createToken(user);
 
