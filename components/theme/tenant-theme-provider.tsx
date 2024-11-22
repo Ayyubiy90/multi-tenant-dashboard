@@ -1,3 +1,5 @@
+"use client";
+
 import { createContext, useContext, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getTenantTheme, type TenantTheme } from "@/lib/api/theme";
