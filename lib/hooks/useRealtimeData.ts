@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
 interface DataPoint {
+  name: any;
   timestamp: number;
   value: number;
 }
