@@ -20,7 +20,7 @@ export interface User {
 export type Role = 'admin' | 'manager' | 'viewer';
 
 export interface Permission {
-  action: 'read' | 'write' | 'delete';
+  action: 'read' | 'write' | 'delete' | '*';
   resource: string;
 }
 

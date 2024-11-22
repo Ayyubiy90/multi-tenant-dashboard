@@ -9,7 +9,7 @@ const ANONYMOUS_USER: User = {
   id: '',
   name: '',
   email: '',
-  role: 'user',
+  role: 'viewer',
   tenantId: '',
   avatar: '',
 };
