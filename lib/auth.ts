@@ -48,7 +48,7 @@ export async function verifyRoutePermission(pathname: string, role: string): Pro
   // Check if user role has permission for this route
   const allowedRoles = routePermissions[routePattern] || [];
   return allowedRoles.includes(role);
-}
+} 
 
 // Mock authentication function - In production, this would verify against a database
 export async function authenticate(email: string, password: string): Promise<User | null> {
