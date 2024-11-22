@@ -86,7 +86,7 @@ export async function authenticate(email: string, password: string): Promise<Use
             name: 'Viewer User',
             email: 'viewer@tenant.com',
             role: 'viewer',
-            tenantId: 'tenant',
+            tenantId: 'enterprise',
             avatar: 'https://avatars.githubusercontent.com/u/3?v=4',
         },
     },
