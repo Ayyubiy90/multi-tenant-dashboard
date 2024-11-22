@@ -1,16 +1,15 @@
-'use client';
-
-import { createContext, useContext, useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { getTenantTheme, type TenantTheme } from '@/lib/api/theme';
-import { generateCssVariables } from '@/lib/utils';
-import { useTenant } from '@/lib/hooks/useTenant';
+import { createContext, useContext, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getTenantTheme, type TenantTheme } from "@/lib/api/theme";
+import { generateCssVariables } from "@/lib/utils";
+import { useTenant } from "@/lib/hooks/useTenant";
 
 const TenantThemeContext = createContext<TenantTheme | null>(null);
 
 export function useTenantTheme() {
   const theme = useContext(TenantThemeContext);
-  if (!theme) throw new Error('useTenantTheme must be used within TenantThemeProvider');
+  if (!theme)
+    throw new Error("useTenantTheme must be used within TenantThemeProvider");
   return theme;
 }
 
@@ -21,14 +20,24 @@ export function TenantThemeProvider({
 }) {
   const tenant = useTenant();
   const { data: theme } = useQuery({
-    queryKey: ['theme', tenant.id],
+    queryKey: ["theme", tenant.id],
     queryFn: () => getTenantTheme(tenant.id),
   });
 
   useEffect(() => {
     if (theme) {
       const root = document.documentElement;
-      root.style.cssText = generateCssVariables(theme);
+
+      // Convert TenantTheme to Record<string, string>
+      const cssVariables = {
+        "--primary": theme.primary,
+        "--secondary": theme.secondary,
+        "--accent": theme.accent,
+        "--background": theme.background,
+      };
+
+      // Generate CSS variables string
+      root.style.cssText = generateCssVariables(cssVariables);
     }
   }, [theme]);
 
