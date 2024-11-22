@@ -14,15 +14,6 @@ const queryClient = new QueryClient({
   },
 });
 
-// Add an error handler for queries
-queryClient.setDefaultOptions({
-  queries: {
-    onError: (error: unknown) => {
-      console.error("Query error:", error);
-    },
-  },
-});
-
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
