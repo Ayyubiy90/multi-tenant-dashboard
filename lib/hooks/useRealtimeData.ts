@@ -37,11 +37,11 @@ export function useRealtimeData(
       try {
         setData(prev => {
           const newPoint = {
-            name: `Point ${prev.length + 1}`, // Assign a name for the new data point
+            name: `Point ${prev.length + 1}`,
             timestamp: Date.now(),
             value: prev[prev.length - 1].value + (Math.random() * 20 - 10),
           };
-          return [...prev.slice(1), newPoint]; // Update the state with the new data point
+          return [...prev.slice(1), newPoint];
         });
       } catch (err) {
         setError(err instanceof Error ? err : new Error('Unknown error'));
