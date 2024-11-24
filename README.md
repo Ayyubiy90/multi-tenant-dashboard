@@ -12,7 +12,7 @@ Welcome to the **Multi-tenant Dashboard Analytics Platform**! This project is a 
 - [Architecture Decisions](#architecture-decisions)
 - [Performance Optimization](#performance-optimization)
 
-## 📚 Background
+## 📚 Background 
 The goal of this project is to create a secure, scalable, and efficient analytics dashboard that provides insights for different organizations while ensuring tenant isolation and data security.
 
 ## 🚀 Core Features
